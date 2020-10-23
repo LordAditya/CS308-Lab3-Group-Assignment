@@ -93,7 +93,7 @@ def find1():
   
     t_area.grid(column = 1,row=6, pady = 10, padx = 10)  
     t_area.insert(INSERT,out)
-
+    t_area.configure(state='disabled')
    
 
 
