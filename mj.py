@@ -49,8 +49,8 @@ def remove_common_words(txt):
     data=data.lower()
     data=data.split()
     # Commonly occuring words stored in a dictionary
-    ## ignore=['a','the','if','an','the','for','as','of','or','and','else','from','in','on','over','but','is','am','are','was','were','at','by','to','can','could','should','shall','will','would','be']
-    ignore=set(stopwords.words('english'))
+    ignore=['a','the','if','an','the','for','as','of','or','and','else','from','in','on','over','but','is','am','are','was','were','at','by','to','can','could','should','shall','will','would','be']
+    
     mod_data=[]
     for i in data:
         if i not in ignore:
