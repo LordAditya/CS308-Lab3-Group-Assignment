@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tkinter import scrolledtext as st
 import subprocess as sp
+from nltk.corpus import stopwords 
 
 # Declared global variable fname to store the current file of execution
 global fname
@@ -33,7 +34,9 @@ def driver(file1):
     data=re.sub(r'[^\w\s]', '', txt) 
     data=data.lower()
     data=data.split()
-    ignore=['a','the','if','an','the','for','as','of','or','and','else','from','in','on','over','but','is','am','are','was','were','at','by','to','can','could','should','shall','will','would','be']
+    #ignore=['a','the','if','an','the','for','as','of','or','and','else','from','in','on','over','but','is','am','are','was','were','at','by','to','can','could','should','shall','will','would','be']
+    #using set of stop words provided by nltk
+    ignore=set(stopwords.words('english'))
     data2=[]
     for i in data:
         if i not in ignore:
