@@ -5,62 +5,83 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 from tkinter import scrolledtext as st
-import subprocess as sp
 from nltk.corpus import stopwords 
+import subprocess as sp
 
 # Declared global variable fname to store the current file of execution
 global fname
 fname=""
 
-# Defined driver code for opening the file and do the file processing
-def driver(file1):
-    dat=open(file1,"r") # opens the file 
-    txt=dat.read()   
+# Reads the iven input file using pythons open function
+def read_file_text(file):
+    dat=open(file,"r") # opens the file 
+    txt=dat.read()
+    return txt  
 
-    # Performing splitting into words and removing '.',' ','\n' characters   
+# Returns the bin length, frequencies and counts of the unique words in the given input list
+def get_frequency(word_list):
+    (unique, counts) = np.unique(word_list, return_counts=True)
+    frequencies = np.asarray((unique, counts)).T
+    bins =set(counts)
+    len_bin=len(bins)
+    frequencies=sorted(frequencies,key=lambda row: row[1]) # Sorting the frequencies
+    frequencies=np.array(frequencies)
+    return (len_bin,frequencies,counts)
+
+# Performing splitting into words and removing '.',' ','\n' characters 
+def preprocess_text(txt):
     nwln=txt.split("\n")
-    sentences=txt.split(".")
-    sentences=sentences[:-1]
-    sentences2=[]
-    for i in sentences:
+    split_sent=txt.split(".")
+    split_sent=split_sent[:-1]
+    sentences=[]
+    for i in split_sent:
         k=0
         if i[k]==" ":
             k+=1
         if i[k]=="\n":
             k+=1
-        sentences2.append(i[k:])
+        sentences.append(i[k:])
+    return (nwln,sentences)
 
-    # Lowercasing and Removing the stopwords i.e. the commonly occuring articles preposiitons from the words list
+# Lowercasing and Removing the stopwords i.e. the commonly occuring articles preposiitons from the words list
+def remove_common_words(txt):
     data=re.sub(r'[^\w\s]', '', txt) 
     data=data.lower()
     data=data.split()
-    #ignore=['a','the','if','an','the','for','as','of','or','and','else','from','in','on','over','but','is','am','are','was','were','at','by','to','can','could','should','shall','will','would','be']
-    #using set of stop words provided by nltk
+    # Commonly occuring words stored in a dictionary
+    ## ignore=['a','the','if','an','the','for','as','of','or','and','else','from','in','on','over','but','is','am','are','was','were','at','by','to','can','could','should','shall','will','would','be']
     ignore=set(stopwords.words('english'))
-    data2=[]
+    mod_data=[]
     for i in data:
         if i not in ignore:
-            data2.append(i)
+            mod_data.append(i)
+    return (mod_data,data)
 
+# Defined driver code for opening the file and do the file processing
+def driver(file1):
+    txt = read_file_text(file1)  
 
-    number_list = np.array(data2)
+    # Performing splitting into words and removing '.',' ','\n' characters  
+    new_ln,sent = preprocess_text(txt)
+
+    # Lowercasing and Removing the stopwords i.e. the commonly occuring articles preposiitons from the words list
+    mod_data,data = remove_common_words(txt)
+    word_list = np.array(mod_data)
 
     # Finding the (word -> frequency) values using the numpy's unique function
-    (unique, counts) = np.unique(number_list, return_counts=True)
-    frequencies = np.asarray((unique, counts)).T
-    bin1=set(counts)
-    bin1=len(bin1)
-    frequencies=sorted(frequencies,key=lambda row: row[1]) # Sorting the frequencies
-    frequencies=np.array(frequencies)
+    bin1,frequencies,counts = get_frequency(word_list)
 
    # Storing the values in globalvars so as to be used later for plotting 
     global bin2
     bin2=bin1
+
     global counts2
     counts2=counts
+    
     global sentences3
-    sentences3=sentences2
-    return frequencies,str(len(sentences2)),str(len(nwln)),str(len(data)),frequencies[-1][0],str(frequencies[-1][-1])
+    sentences3=sent
+
+    return frequencies,str(len(sent)),str(len(new_ln)),str(len(data)),frequencies[-1][0],str(frequencies[-1][-1])
 
 # Function used for plotting the frequency values of words in a histogram
 def hist_p():
@@ -108,7 +129,7 @@ def find1():
     t_area.configure(state='disabled')
    
 # The Driver code for adding the info onto the widgets
-def driver2():
+def driver_widget():
     # Gets the corresponding stats from the driver function
     frequencies,sent_no,nwl_nno,word_no,max_word,max_word_count = driver(fname)
     # Doing the necessary configuration to display
@@ -138,7 +159,7 @@ def driver2():
     lbl_upload_2 = Label(root, text = "Upload file of keywords separated by space (keep input text blank)") 
     lbl_upload_2.grid(column=1, row=4) 
     up_btn = Button(root, text = "Upload file" , 
-            command=browseFiles2) 
+            command=browseFiles_search) 
     up_btn.grid(column=1,row=5)
 
     # Placing these onto the screen
@@ -148,7 +169,7 @@ def driver2():
 
    
 # Funtion implemented to browse the files using tkinter's filedialog system
-def browseFiles2(): 
+def browseFiles_search(): 
     filename = filedialog.askopenfilename(initialdir = "/", 
                                           title = "Select a File", 
                                           filetypes = (("Text files", 
@@ -197,7 +218,7 @@ lbl_wcount.grid(column=0,row=2)
 btn = Button(root, text = "Browse files" , 
             command=browseFiles) 
 btn2= Button(root, text = "Run" , 
-            command=driver2) 
+            command=driver_widget) 
 
 # Adding them to the grid
 btn.grid(column=1, row=0,padx=10,pady=10) 
