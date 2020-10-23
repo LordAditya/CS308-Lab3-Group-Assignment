@@ -99,8 +99,8 @@ def find1():
                             width = 50,  
                             height = 8,  
                             font = ("Times New Roman", 
-                                    12)) 
-    t_area.grid(column = 1,row=6, pady = 10, padx = 10)  
+                                    12),bg='#f2e9e4') 
+    t_area.grid(column = 3,row=7, pady = 10, padx = 10,columnspan=5,sticky='w')  
     t_area.insert(INSERT,out)
     t_area.configure(state='disabled')
    
@@ -112,35 +112,36 @@ def driver2():
     lbl_sentences.configure(text="No of sentences in file: "+sent_no)
     lbl_newlines.configure(text="No of newlines in file: "+nwl_nno)
     lbl_wcount.configure(text="No of words in file: "+word_no)
-    lbl_frequency.configure(text="word with most frequency in file: '"+max_word+"'\nIts frequency: "+max_word_count)
-    
+    lbl_frequency.configure(text="Word with most frequency in file: '"+max_word)
+    lbl_frequency2.configure(text="Its frequency: "+max_word_count)
+
     # Adding labels to the frame
-    lbl_search_label = Label(root,text="Enter the words to search separated by space or")
-    lbl_search_label.grid(column=1,row=2)  
+    lbl_search_label = Label(root,text="Enter the words to search separated by space or",width=50,anchor=W,bg="#c9ada7")
+    lbl_search_label.grid(column=4,row=2,columnspan=4)  
     
     # Button to plot the histogram
     hist_plot_btn= Button(root, text = "Plot Histogram" , 
-            command=hist_p) 
-    hist_plot_btn.grid(column=0,row=1)
-    edit_btn = Button(root, text = "Edit" ,command=edit_1) 
-    edit_btn.grid(column=2,row=1)
+            command=hist_p,width =20,bg="#9a8c98",highlightthickness=2,highlightbackground="white") 
+    hist_plot_btn.grid(column=0,row=1,columnspan=2,sticky='w',padx=5)
+    edit_btn = Button(root, text = "Edit" ,command=edit_1,width=12,bg="#9a8c98",highlightthickness=2,highlightbackground="white") 
+    edit_btn.grid(column=4,row=1,sticky='e')
 
     # Showing the results of the search onto the Text area
     global text_area
-    text_area = Entry(root, width=10) 
-    text_area.grid(column = 1, row=3,pady = 1, padx = 5) 
+    text_area = Entry(root, width=35,bg='#f2e9e4') 
+    text_area.grid(column = 4, row=3,pady = 1, padx = 5,columnspan=3,sticky='w') 
    
     global lbl_upload_2
     # Labels and buttons for uploading and executing the files
-    lbl_upload_2 = Label(root, text = "Upload file of keywords separated by space (keep input text blank)") 
-    lbl_upload_2.grid(column=1, row=4) 
+    lbl_upload_2 = Label(root, text = "Upload file of keywords separated by space \n(keep input text blank)",width=50,anchor=W,bg="#c9ada7") 
+    lbl_upload_2.grid(column=4, row=4,columnspan=5,rowspan=2) 
     up_btn = Button(root, text = "Upload file" , 
-            command=browseFiles2) 
-    up_btn.grid(column=1,row=5)
+            command=browseFiles2,width=12,bg="#9a8c98",highlightthickness=2,highlightbackground="white") 
+    up_btn.grid(column=4,row=6,sticky="e")
 
     # Placing these onto the screen
-    exe_btn =Button(root, text = "Execute" ,command=find1) 
-    exe_btn.grid(column=2,row=5)
+    exe_btn =Button(root, text = "Execute" ,command=find1,width=12,bg="#9a8c98",highlightthickness=2,highlightbackground="white") 
+    exe_btn.grid(column=5,row=6,sticky="w")
     
 
    
@@ -152,7 +153,7 @@ def browseFiles2():
                                                         "*.txt*"), 
                                                        ("all files", 
                                                         "*.*"))) 
-    lbl_upload_2.configure(text="(Keep above input blank) File Opened: "+filename) 
+    lbl_upload_2.configure(text="File Opened: "+filename+"\n(Keep above input blank)") 
     global fname2
     fname2=filename
     
@@ -169,35 +170,39 @@ def browseFiles():
     fname=filename
        
 root = Tk() 
-  
 # Root window title and dimension 
 root.title("Lap_LAB_3") 
-root.geometry('900x700') 
+root.geometry('750x450')
+root['bg']="#c9ada7"
   
 # Adding a label to the root window 
-lbl = Label(root, text = "Choose a file to run") 
-lbl.grid(column=0, row=0) 
+lbl = Label(root, text = "Choose a file to run",width=40,anchor=W,borderwidth=1,relief="raised",bg='#f2e9e4') 
+lbl.grid(column=0, row=0,columnspan=4,sticky='w',padx=5) 
 
 # Setting up the window for the gui
-lbl_sentences = Label(root)
-lbl_sentences.grid(column=0,row=3)
-lbl_newlines =Label(root)
-lbl_newlines.grid(column=0,row=5)
-lbl_frequency =Label(root)
-lbl_frequency.grid(column=0,row=4)
-lbl_wcount =Label(root)
-lbl_wcount.grid(column=0,row=2)
+lbl_sentences = Label(root,width=40,anchor=W,bg="#c9ada7")
+lbl_sentences.grid(column=0,row=3,columnspan=4)
+lbl_newlines =Label(root,width=40,anchor=W,bg="#c9ada7")
+lbl_newlines.grid(column=0,row=6,columnspan=4)
+lbl_frequency =Label(root,width=40,anchor=W,bg="#c9ada7")
+lbl_frequency.grid(column=0,row=4,columnspan=4)
+lbl_frequency2 =Label(root,width=40,anchor=W,bg="#c9ada7")
+lbl_frequency2.grid(column=0,row=5,columnspan=4)
+lbl_wcount =Label(root,width=40,anchor=W,bg="#c9ada7")
+lbl_wcount.grid(column=0,row=2,columnspan=4)
 
 
 
 # getting the buttons from tkinter
 btn = Button(root, text = "Browse files" , 
-            command=browseFiles) 
+            command=browseFiles,width=12,bg="#9a8c98",highlightthickness=2,highlightbackground="white") 
 btn2= Button(root, text = "Run" , 
-            command=driver2) 
+            command=driver2,width=12,bg="#9a8c98",highlightthickness=2,highlightbackground="white") 
 
 # Adding them to the grid
-btn.grid(column=1, row=0,padx=10,pady=10) 
-btn2.grid(column=1,row=1)
+btn.columnconfigure(0,weight=1) 
+btn.grid(column=4, row=0,padx=2,pady=10,sticky=E)
+
+btn2.grid(column=5,row=0,sticky=W)
 # Running the root window 
 root.mainloop()
