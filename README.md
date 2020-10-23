@@ -13,19 +13,23 @@ This is a text processing software developed as a mini-project in LAP course.
 1. Browse the local machine for the ASCII text file as input, by clicking on the button `Browse files`.
 ![Alt text](Image/1.png?raw=true)
 ![Alt text](Image/2.png?raw=true)
+
 2. Click on the button `Run` to see the statistics and other features.
 ![Alt text](Image/3.png?raw=true)
 ![Alt text](Image/4.png?raw=true)
+
 3. Click on the button `Plot Histogram` to see the histogram of the word frequency in the text file.
 ![Alt text](Image/5.png?raw=true)
+
 4. Click on the button `Edit` to change the text file dynamically.
 ![Alt text](Image/6.png?raw=true)
 And see the changed statistics by clicking on the button `Run`.
 ![Alt text](Image/7.png?raw=true)
+
 5. Search for a keyword in the text file 
-    a. By entering few space separated words, and clicking `Execute`.
+    1. By entering few space separated words, and clicking `Execute`.
     ![Alt text](Image/8.png?raw=true)
-    b. By uploading a text file with keywords to be searcjed. Click on the button `Upload file` and the click on `Execute`.
+    2. By uploading a text file with keywords to be searcjed. Click on the button `Upload file` and the click on `Execute`.
     ![Alt text](Image/9.png?raw=true)
 
 ## Documentation
