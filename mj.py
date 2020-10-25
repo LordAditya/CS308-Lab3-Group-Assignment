@@ -11,12 +11,17 @@ import subprocess as sp
 # Declared global variable fname to store the current file of execution
 global fname
 fname=""
+global fname2
+fname2=""
 
 # Reads the iven input file using pythons open function
 def read_file_text(file):
-    dat=open(file,"r") # opens the file 
-    txt=dat.read()
-    return txt  
+    try:
+	    dat=open(file,"r") # opens the file 
+	    txt=dat.read()
+	    return txt
+    except FileNotFoundError:
+    	print("No File Chosen!!!!")  
 
 # Returns the bin length, frequencies and counts of the unique words in the given input list
 def get_frequency(word_list):
@@ -60,6 +65,7 @@ def remove_common_words(txt):
 # Defined driver code for opening the file and do the file processing
 def driver(file1):
     txt = read_file_text(file1)  
+    print(type(txt))
 
     # Performing splitting into words and removing '.',' ','\n' characters  
     new_ln,sent = preprocess_text(txt)
@@ -100,6 +106,9 @@ def edit_1():
 def find1():
     words=text_area.get()
     if words=="":
+        if fname2=="":
+            lbl_upload_2.configure(text="No file selected, enter valid text file or enter keywords in textbox.")
+            return
         dat=open(fname2,"r")
         txt=dat.read()
         words=words.lower()
@@ -131,6 +140,10 @@ def find1():
 # The Driver code for adding the info onto the widgets
 def driver_widget():
     # Gets the corresponding stats from the driver function
+    if fname == "":
+        lbl.configure(text = "No file selected, please select a valid text file.")
+        return
+
     frequencies,sent_no,nwl_nno,word_no,max_word,max_word_count = driver(fname)
     # Doing the necessary configuration to display
     lbl_sentences.configure(text="No of sentences in file: "+sent_no)
